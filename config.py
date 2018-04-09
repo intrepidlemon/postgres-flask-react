@@ -1,14 +1,20 @@
 import os
+import logging
 
 class Config(object):
     DEBUG = True
     PRINT_SQL = False
-    MAX_CONTENT_LENGTH = 128 * 1024 * 1024 # 128mb
     SECRET = "example secret key"
+    MAX_CONTENT_LENGTH = 128 * 1024 * 1024 # 128mb
+
+    LOG_LEVEL = logging.DEBUG
 
     REGION = "us-east-1"
-    S3_URL_EXPIRATION = 30 * 24 * 60 * 60 # 30 days
+    S3_URL_EXPIRATION = 7 * 24 * 60 * 60 # 7 days
     S3_BUCKET = "example-bucket"
+
+    RESET_SALT = "recovery-key"
+    RESET_MAX_AGE = 24 * 60 * 60 # 24 hours
 
     DB_NAME = "example"
     DB_URL = "postgresql:///{name}".format(
@@ -16,6 +22,8 @@ class Config(object):
         )
 
 class Production(Config):
+    DEBUG = False
+
     DB_HOSTNAME = os.environ.get("RDS_HOSTNAME")
     DB_PORT = os.environ.get("RDS_PORT")
     DB_NAME = os.environ.get("RDS_DB_NAME")
@@ -28,5 +36,7 @@ class Production(Config):
         port=DB_PORT,
         db=DB_NAME,
     )
+
+    LOG_LEVEL = logging.ERROR
 
 config = Config()

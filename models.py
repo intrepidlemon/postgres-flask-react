@@ -1,27 +1,50 @@
-from flask_security import UserMixin, RoleMixin
+import bcrypt
+from datetime import datetime
+
 from database import db
 
-class RolesUsers(db.Model):
+class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    role_id = db.Column(db.Integer, db.ForeignKey('role.id'))
+    created_on = db.Column(db.DateTime, default=datetime.utcnow)
+    email = db.Column(db.String())
+    complete_email = db.Column(db.String())
+    email_confirmed = db.Column(db.Boolean, default=False)
 
-class Role(db.Model, RoleMixin):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80), unique=True)
-    description = db.Column(db.String(255))
+    _password = db.Column(db.Binary(60))
 
-class User(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(255), unique=True)
-    username = db.Column(db.String(255))
-    password = db.Column(db.String(255))
-    last_login_at = db.Column(db.DateTime)
-    current_login_at = db.Column(db.DateTime)
-    last_login_ip = db.Column(db.String(100))
-    current_login_ip = db.Column(db.String(100))
-    login_count = db.Column(db.Integer)
-    active = db.Column(db.Boolean)
-    confirmed_at = db.Column(db.DateTime)
-    roles = db.relationship('Role', secondary='roles_users',
-                         backref=db.backref('users', lazy='dynamic'))
+    def __init__(self, email, password, complete_email):
+        self.email = email
+        self.complete_email = complete_email
+        self.set_password(password)
+
+    def check_password(self, password):
+        password = password.encode('utf-8')
+        return bcrypt.checkpw(password, self._password)
+
+    def set_password(self, password):
+        password = password.encode('utf-8')
+        self._password = bcrypt.hashpw(password, bcrypt.gensalt())
+
+    # flask-login properties
+    @property
+    def is_active(self):
+        return True
+
+    @property
+    def is_authenticated(self):
+        return True
+
+    @property
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return str(self.id)
+
+    @property
+    def dict(self):
+        return {
+            "id": self.id,
+            "email": self.complete_email,
+            "email_confirmed": self.email_confirmed,
+        }
