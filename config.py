@@ -21,6 +21,9 @@ class Config(object):
             name=DB_NAME,
         )
 
+    SENDER = "admin@intrepidlemon.com" # email "from" field
+    URL = "http://localhost:3000"
+
 class Production(Config):
     DEBUG = False
 

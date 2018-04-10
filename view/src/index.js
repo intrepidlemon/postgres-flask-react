@@ -10,7 +10,9 @@ import registerServiceWorker from './registerServiceWorker';
 import reducer from './reducers'
 import './index.css';
 
-import Register from './components/Register'
+import Hydrate from './components/Hydrate'
+import Account from './components/Account'
+import ResetPassword from './components/ResetPassword'
 
 // middleware
 const middleware = applyMiddleware(
@@ -28,11 +30,15 @@ const store = createStore(
 
 export const App = () =>
   <Provider store={store}>
-    <Router>
-      <Switch>
-        <Route path="/" component={Register}/>
-      </Switch>
-    </Router>
+    <Hydrate>
+      <Router>
+        <Switch>
+          <Route path="/reset-password/:token" component={ResetPassword}/>
+          <Route path="/reset-password" component={ResetPassword}/>
+          <Route path="/" component={Account}/>
+        </Switch>
+      </Router>
+    </Hydrate>
   </Provider>
 
 render(<App/>, document.getElementById('root'));

@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { register } from '../../actions/account'
+import { login } from '../../actions/account'
 
-class Register extends Component {
+class Login extends Component {
   constructor() {
     super()
     this.state = {
@@ -27,8 +27,8 @@ class Register extends Component {
 
   submit = e => {
     e.preventDefault()
-    const { register } = this.props
-    register({ ...this.state })
+    const { login } = this.props
+    login({ ...this.state })
       .then(({ status, error }) => {
         if (status !== 200) {
           this.setState({ error })
@@ -44,14 +44,14 @@ class Register extends Component {
       error,
     } = this.state
     if ( status === "logged-in" ) {
-      return <div className="register">
+      return <div className="login">
         You are logged in
       </div>
     }
-    return <div className="register">
-      <h1>Register</h1>
+    return <div className="login">
+      <h1>Log in</h1>
       { error &&
-        <div className="register__error">{ error }</div>
+        <div className="login__error">{ error }</div>
       }
       <Form
         email={email}
@@ -71,10 +71,10 @@ const Form = ({
   passwordChange,
   submit,
 }) =>
-  <form className="register__form">
+  <form className="login__form">
     <div>
       <input
-        className="register__input"
+        className="login__input"
         type="text"
         name="email"
         value={email}
@@ -84,7 +84,7 @@ const Form = ({
     </div>
     <div>
       <input
-        className="register__input"
+        className="login__input"
         type="password"
         name="password"
         value={password}
@@ -93,7 +93,7 @@ const Form = ({
       />
     </div>
     <button
-      className="register__submit"
+      className="login__submit"
       type="submit"
       onClick={submit}
     >
@@ -107,7 +107,7 @@ const mapStateToProps = (state, props) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  register: credentials => dispatch(register(credentials)),
+  login: credentials => dispatch(login(credentials)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Register)
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

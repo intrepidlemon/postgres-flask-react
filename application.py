@@ -26,6 +26,10 @@ login_manager.init_app(app)
 
 ## USER MANAGEMENT ##
 
+@login_manager.user_loader
+def user_loader(id):
+    return User.query.filter_by(id=int(id)).first()
+
 @app.route('/register', methods=["POST"])
 def register():
     credentials = request.get_json()
@@ -47,7 +51,7 @@ def register():
     login_user(user, remember=True)
     return jsonify(current_user.dict)
 
-@app.route('/api/login', methods=["POST"])
+@app.route('/login', methods=["POST"])
 def login():
     credentials = request.get_json()
     email = credentials.get("email", "").lower()
@@ -65,19 +69,19 @@ def login():
     login_user(user, remember=True)
     return jsonify(current_user.dict)
 
-@app.route('/api/logout', methods=["POST"])
+@app.route('/logout', methods=["POST"])
 @login_required
 def logout():
     logout_user()
     return "success"
 
-@app.route('/api/user')
+@app.route('/user')
 @login_required
 def user():
     return jsonify(current_user.dict)
 
 ts = create_time_serializer(app.config["SECRET_KEY"])
-@app.route('/api/reset-password', methods=["POST"])
+@app.route('/reset-password', methods=["POST"])
 def reset_password_request():
     json = request.get_json()
     email = json.get("email")
@@ -97,7 +101,7 @@ def reset_password_request():
         return "unable to send reset email", 500
     return "success"
 
-@app.route('/api/reset-password/<token>', methods=["POST"])
+@app.route('/reset-password/<token>', methods=["POST"])
 def reset_password(token):
     try:
         email = ts.loads(token, salt=config.RESET_SALT, max_age=config.RESET_MAX_AGE)
@@ -123,6 +127,10 @@ def protected():
 @login_manager.unauthorized_handler
 def unauthorized():
     return "unauthorized", 401
+
+@app.errorhandler(404)
+def not_found(e):
+    return "api not found", 404
 
 if __name__ == '__main__':
     app.run()
