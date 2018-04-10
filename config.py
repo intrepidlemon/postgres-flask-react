@@ -42,4 +42,9 @@ class Production(Config):
 
     LOG_LEVEL = logging.ERROR
 
+    SECRET = os.environ.get("FLASK_SECRET")
+
 config = Config()
+
+if os.environ.get("PRODUCTION"):
+    config = Production()
