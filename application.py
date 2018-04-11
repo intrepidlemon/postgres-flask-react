@@ -3,7 +3,7 @@ from flask_login import LoginManager, login_required, current_user, login_user, 
 from flask_migrate import Migrate
 
 from config import config
-from utils import create_time_serializer
+from utils import filetype, remove_ext, create_time_serializer
 from mail import mail
 from log import log
 
@@ -16,7 +16,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = config.DB_URL
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config['SQLALCHEMY_ECHO'] = config.PRINT_SQL
 
-from models import User
+from models import User, Image
 from database import db
 
 migrate = Migrate(app, db)
@@ -119,10 +119,32 @@ def reset_password(token):
     db.session.commit()
     return "success"
 
-@app.route('/')
+@app.route('/upload')
 @login_required
-def protected():
-    return render('my secrets')
+def upload():
+    # validate file
+    if "file" not in request.files:
+        return "no file", 400
+    f = request.files["file"]
+    if f.filename == "":
+        return "no file", 400
+    if not filetype("png", f.filename):
+        return "wrong file type", 400
+    # generate a new PDF package
+    image = Image(remove_ext(f.filename), f, current_user)
+    duplicate = Image.query.filter_by(ref=image.ref).first()
+    if duplicate is None:
+        upload_file(f, image.ref, config.S3_BUCKET)
+    db.session.add(image)
+    db.session.commit()
+    return jsonify(image.dict)
+
+@app.route('/image')
+@login_required
+def get_all_images():
+    return jsonify({
+        "images": [image.dict for image in current_user.images]
+    })
 
 @login_manager.unauthorized_handler
 def unauthorized():

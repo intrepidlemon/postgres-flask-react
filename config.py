@@ -15,6 +15,7 @@ class Config(object):
 
     RESET_SALT = "recovery-key"
     RESET_MAX_AGE = 24 * 60 * 60 # 24 hours
+    CHUNK_SIZE = 64 * 1024 # for hex digest
 
     DB_NAME = "example"
     DB_URL = "postgresql:///{name}".format(
