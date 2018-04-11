@@ -11,8 +11,9 @@ import reducer from './reducers'
 import './index.css';
 
 import Hydrate from './components/Hydrate'
-import Account from './components/Account'
 import ResetPassword from './components/ResetPassword'
+import UserGate from './components/UserGate'
+import Home from './components/Home'
 
 // middleware
 const middleware = applyMiddleware(
@@ -28,6 +29,13 @@ const store = createStore(
   envCompose(middleware)
 )
 
+const LoginRequired = () =>
+  <UserGate>
+    <Switch>
+      <Route exact path="/" component={Home}/>
+    </Switch>
+  </UserGate>
+
 export const App = () =>
   <Provider store={store}>
     <Hydrate>
@@ -35,7 +43,7 @@ export const App = () =>
         <Switch>
           <Route path="/reset-password/:token" component={ResetPassword}/>
           <Route path="/reset-password" component={ResetPassword}/>
-          <Route path="/" component={Account}/>
+          <Route path="/" component={LoginRequired}/>
         </Switch>
       </Router>
     </Hydrate>

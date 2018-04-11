@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import { user } from '../../actions/account'
+import FullScreenCenter from '../FullScreenCenter'
 
 // Hydrate loads all necessary information when a user first logs in
 class Hydrate extends React.Component {
@@ -25,7 +26,9 @@ class Hydrate extends React.Component {
   render() {
     const { status, children } = this.props
     if (status === null) {
-      return "loading…"
+      return <FullScreenCenter>
+        loading…
+      </FullScreenCenter>
     }
     return children
   }

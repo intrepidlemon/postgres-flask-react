@@ -1,6 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
+import Flex from '../Flex'
+import Button from '../Button'
+import TextInput from '../TextInput'
+import Error from '../Error'
+
 import { login } from '../../actions/account'
 
 class Login extends Component {
@@ -48,11 +53,7 @@ class Login extends Component {
         You are logged in
       </div>
     }
-    return <div className="login">
-      <h1>Log in</h1>
-      { error &&
-        <div className="login__error">{ error }</div>
-      }
+    return <Flex>
       <Form
         email={email}
         password={password}
@@ -60,7 +61,12 @@ class Login extends Component {
         passwordChange={this.passwordChange}
         submit={this.submit}
       />
-    </div>
+      { error &&
+        <Error>
+          { error }
+        </Error>
+      }
+    </Flex>
   }
 }
 
@@ -71,34 +77,33 @@ const Form = ({
   passwordChange,
   submit,
 }) =>
-  <form className="login__form">
-    <div>
-      <input
-        className="login__input"
+  <form
+    className="login__form"
+    onSubmit={submit}
+  >
+    <Flex>
+      <h1>log in</h1>
+      <TextInput
         type="text"
         name="email"
         value={email}
         onChange={emailChange}
         placeholder="email"
       />
-    </div>
-    <div>
-      <input
-        className="login__input"
+      <TextInput
         type="password"
         name="password"
         value={password}
         onChange={passwordChange}
         placeholder="password"
       />
-    </div>
-    <button
-      className="login__submit"
-      type="submit"
-      onClick={submit}
-    >
-      Sign up
-    </button>
+      <Button
+        className="login__submit"
+        type="submit"
+      >
+        log in
+      </Button>
+    </Flex>
   </form>
 
 const mapStateToProps = (state, props) => ({

@@ -1,16 +1,24 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
 
 import { requestReset, performReset } from '../../actions/account'
 
+import Flex from '../Flex'
+import Button from '../Button'
+import ButtonLink from '../ButtonLink'
+import TextInput from '../TextInput'
+import FullScreenCenter from '../FullScreenCenter'
+import Error from '../Error'
+
+import './reset-password.css'
+
 const ResetPassword = ({ token=null, perform, request }) =>
-  <div className="reset-password">
+  <FullScreenCenter>
     { token === null
       ? <RequestReset submit={request}/>
       : <PerformReset submit={perform(token)}/>
     }
-  </div>
+  </FullScreenCenter>
 
 class RequestReset extends React.Component {
   constructor(props) {
@@ -31,43 +39,42 @@ class RequestReset extends React.Component {
     const { submit } = this.props
     const { email } = this.state
     this.setState({ error: "" })
-    submit(email).then(({ status, error }) => {
-      this.setState({ status, error })
+    submit(email).then(({ status, data }) => {
+      this.setState({ status, error: data })
     })
   }
 
   render() {
     const { email, status, error } = this.state
     if (status === 200) {
-      return <div className="reset-password__success">
+      return <Flex>
         <h1>Check your email!</h1>
         <p>Your password reset request successfully processed.</p>
-      </div>
+      </Flex>
     }
     return <form
       onSubmit={this.submit}
-      className="reset-password__form"
     >
-      <h1>Request password reset</h1>
-      <input
-        className="reset-password__input"
-        type="email"
-        value={email}
-        onChange={this.updateEmail}
-        autoFocus
-        placeholder="email"
-      />
-      <button
-        className="reset-password__submit"
-        type="submit"
-      >
-        submit
-      </button>
-      { error &&
-        <div className="reset-password__error">
-          { error }
-        </div>
-      }
+      <Flex>
+        <h1>Request password reset</h1>
+        <TextInput
+          type="email"
+          value={email}
+          onChange={this.updateEmail}
+          autoFocus
+          placeholder="email"
+        />
+        <Button
+          type="submit"
+        >
+          submit
+        </Button>
+        { error &&
+          <Error>
+            { error }
+          </Error>
+        }
+      </Flex>
     </form>
   }
 }
@@ -91,49 +98,48 @@ class PerformReset extends React.Component {
     const { submit } = this.props
     const { password } = this.state
     this.setState({ error: "" })
-    submit(password).then(({ status, error }) => {
-      this.setState({ status, error })
+    submit(password).then(({ status, data }) => {
+      this.setState({ status, error: data })
     })
   }
 
   render() {
     const { password, status, error } = this.state
     if (status === 200) {
-      return <div className="reset-password__success">
+      return <Flex>
         <h1>Password reset</h1>
         <p>Your password was successfully reset.</p>
-        <Link
+        <ButtonLink
           className="reset-password__link-home"
           to="/"
         >
           go to login
-        </Link>
-      </div>
+        </ButtonLink>
+      </Flex>
     }
     return <form
       onSubmit={this.submit}
-      className="reset-password__form"
     >
-      <h1>Reset your password</h1>
-      <input
-        className="reset-password__input"
-        type="password"
-        value={password}
-        onChange={this.updatePassword}
-        autoFocus
-        placeholder="new password"
-      />
-      <button
-        className="reset-password__submit"
-        type="submit"
-      >
-        submit
-      </button>
-      { error &&
-        <div className="reset-password__error">
-          { error }
-        </div>
-      }
+      <Flex>
+        <h1>Reset your password</h1>
+        <TextInput
+          type="password"
+          value={password}
+          onChange={this.updatePassword}
+          autoFocus
+          placeholder="new password"
+        />
+        <Button
+          type="submit"
+        >
+          submit
+        </Button>
+        { error &&
+          <Error>
+            { error }
+          </Error>
+        }
+      </Flex>
     </form>
   }
 }

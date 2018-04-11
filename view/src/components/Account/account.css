@@ -1,0 +1,12 @@
+.account__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 1rem;
+  width: 100%;
+  max-width: 50rem;
+}
+
+.account__reset {
+  grid-column: 1 / 3;
+  text-align: center;
+}

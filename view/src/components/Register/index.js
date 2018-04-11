@@ -2,6 +2,10 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { register } from '../../actions/account'
+import Flex from '../Flex'
+import Button from '../Button'
+import TextInput from '../TextInput'
+import Error from '../Error'
 
 class Register extends Component {
   constructor() {
@@ -48,11 +52,7 @@ class Register extends Component {
         You are logged in
       </div>
     }
-    return <div className="register">
-      <h1>Register</h1>
-      { error &&
-        <div className="register__error">{ error }</div>
-      }
+    return <Flex>
       <Form
         email={email}
         password={password}
@@ -60,7 +60,12 @@ class Register extends Component {
         passwordChange={this.passwordChange}
         submit={this.submit}
       />
-    </div>
+      { error &&
+        <Error>
+          { error }
+        </Error>
+      }
+    </Flex>
   }
 }
 
@@ -71,34 +76,33 @@ const Form = ({
   passwordChange,
   submit,
 }) =>
-  <form className="register__form">
-    <div>
-      <input
-        className="register__input"
+  <form
+    className="register__form"
+    onSubmit={submit}
+  >
+    <Flex>
+      <h1>register</h1>
+      <TextInput
         type="text"
         name="email"
         value={email}
         onChange={emailChange}
         placeholder="email"
       />
-    </div>
-    <div>
-      <input
-        className="register__input"
+      <TextInput
         type="password"
         name="password"
         value={password}
         onChange={passwordChange}
         placeholder="password"
       />
-    </div>
-    <button
-      className="register__submit"
-      type="submit"
-      onClick={submit}
-    >
-      Sign up
-    </button>
+      <Button
+        className="register__submit"
+        type="submit"
+      >
+        sign up
+      </Button>
+    </Flex>
   </form>
 
 const mapStateToProps = (state, props) => ({
