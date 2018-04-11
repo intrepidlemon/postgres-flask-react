@@ -1,14 +1,17 @@
 import React from 'react'
 
 import Nav from '../Nav'
-import Flex from '../Flex'
+import Page from '../Page'
+import Upload from '../Upload'
+import ImageList from '../ImageList'
 
 import './home.css'
 
 const Home = () =>
-  <Flex className="home">
+  <Page>
     <Nav/>
-    <h1>Home</h1>
-  </Flex>
+    <Upload/>
+    <ImageList/>
+  </Page>
 
 export default Home

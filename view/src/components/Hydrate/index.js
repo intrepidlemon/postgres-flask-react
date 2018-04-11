@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import { user } from '../../actions/account'
+import { getImages } from '../../actions/files'
 import FullScreenCenter from '../FullScreenCenter'
 
 // Hydrate loads all necessary information when a user first logs in
@@ -20,7 +21,8 @@ class Hydrate extends React.Component {
   }
 
   hydrate = props => {
-    props = props || this.props
+    const { getImages } = props || this.props
+    getImages()
   }
 
   render() {
@@ -40,6 +42,7 @@ const mapStateToProps = (state, props) => ({
 
 const mapDispatchToProps = dispatch => ({
   user: () => dispatch(user()),
+  getImages: () => dispatch(getImages()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Hydrate)

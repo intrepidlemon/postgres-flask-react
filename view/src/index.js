@@ -14,6 +14,7 @@ import Hydrate from './components/Hydrate'
 import ResetPassword from './components/ResetPassword'
 import UserGate from './components/UserGate'
 import Home from './components/Home'
+import Image from './components/Image'
 
 // middleware
 const middleware = applyMiddleware(
@@ -33,6 +34,7 @@ const LoginRequired = () =>
   <UserGate>
     <Switch>
       <Route exact path="/" component={Home}/>
+      <Route exact path="/image/:id" component={Image}/>
     </Switch>
   </UserGate>
 

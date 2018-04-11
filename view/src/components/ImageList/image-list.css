@@ -1,0 +1,38 @@
+.image-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 2rem;
+}
+
+@media (max-width: 80rem) {
+  .image-list {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 50rem) {
+  .image-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+.image-list__image {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: black;
+  transition: all 0.2s ease;
+  padding: 1rem;
+
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.image-list__image:hover {
+  transform: scale(1.02);
+  box-shadow: 0.5rem 0.5rem 0 cornflowerblue;
+}
+
+.image-list__image > * + * {
+  margin-top: 1rem;
+}

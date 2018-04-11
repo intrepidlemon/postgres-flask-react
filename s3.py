@@ -6,7 +6,12 @@ from config import config
 # or through one of the methods here: http://boto3.readthedocs.io/en/latest/guide/configuration.html#credentials
 s3 = boto3.client("s3")
 
-def upload_file(f, filename, bucket_name, acl="authenticated-read", content_type="application/pdf"):
+def upload_file(f,
+        filename,
+        bucket_name,
+        acl="authenticated-read",
+        content_type="image/png"
+        ):
     f.seek(0)
     s3.upload_fileobj(
 	f,

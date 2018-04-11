@@ -6,6 +6,7 @@ from config import config
 from utils import filetype, remove_ext, create_time_serializer
 from mail import mail
 from log import log
+from s3 import upload_file
 
 # Create app
 app = Flask(__name__)
@@ -93,7 +94,7 @@ def reset_password_request():
     error = mail(
         config.SENDER,
         email,
-        "backref: password reset",
+        "password reset",
         "reset your password here: {}".format(url),
         )
     if error != None:
@@ -119,7 +120,7 @@ def reset_password(token):
     db.session.commit()
     return "success"
 
-@app.route('/upload')
+@app.route('/upload', methods=["POST"])
 @login_required
 def upload():
     # validate file
@@ -132,10 +133,10 @@ def upload():
         return "wrong file type", 400
     # generate a new PDF package
     image = Image(remove_ext(f.filename), f, current_user)
-    duplicate = Image.query.filter_by(ref=image.ref).first()
-    if duplicate is None:
-        upload_file(f, image.ref, config.S3_BUCKET)
     db.session.add(image)
+    duplicate = Image.query.filter_by(digest=image.digest).first()
+    if duplicate.id == image.id:
+        upload_file(f, image.digest, config.S3_BUCKET)
     db.session.commit()
     return jsonify(image.dict)
 

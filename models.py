@@ -58,7 +58,7 @@ class User(db.Model):
 class Image(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String())
-    ref = db.Column(db.String())
+    digest = db.Column(db.String())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'),
             nullable=False)
     created_on = db.Column(db.DateTime, default=datetime.utcnow)
@@ -67,7 +67,7 @@ class Image(db.Model):
     def __init__(self, name, f, user):
         self.name = name
         self.user = user
-        self.ref = hash_file(f)
+        self.digest = hash_file(f)
 
         self.output = Image.analyze(f)
 
@@ -75,7 +75,7 @@ class Image(db.Model):
     def url(self):
         return generate_url(
             config.S3_BUCKET,
-            self.ref,
+            self.digest,
             config.S3_URL_EXPIRATION,
         )
 
@@ -83,9 +83,10 @@ class Image(db.Model):
     def dict(self):
         return {
             "id": self.id,
-            "ref": self.ref,
+            "digest": self.digest,
             "name": self.name,
             "url": self.url,
+            "output": self.output,
             "created_on": timestamp(self.created_on),
         }
 

@@ -1,5 +1,19 @@
 import axios from 'axios'
 
+/*
+ * createFormData takes in a object and turns it into
+ * formData ready to be used inside of `fetch`'s object parameter
+ */
+export const createFormData = obj => {
+  const data = new FormData();
+  for (let key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      data.append(key, obj[key]);
+    }
+  }
+  return data
+}
+
 export const fetch = axios.create({
   headers: {
     "cache-control": "no-store",

@@ -2,6 +2,7 @@ import os
 import logging
 
 class Config(object):
+    DEVELOPMENT = True
     DEBUG = True
     PRINT_SQL = False
     SECRET = "example secret key"
@@ -11,7 +12,8 @@ class Config(object):
 
     REGION = "us-east-1"
     S3_URL_EXPIRATION = 7 * 24 * 60 * 60 # 7 days
-    S3_BUCKET = "example-bucket"
+    S3_BUCKET = "echos-dev"
+    S3_LOCATION = 'https://{}.s3.amazonaws.com/'.format(S3_BUCKET)
 
     RESET_SALT = "recovery-key"
     RESET_MAX_AGE = 24 * 60 * 60 # 24 hours
@@ -26,6 +28,7 @@ class Config(object):
     URL = "http://localhost:3000"
 
 class Production(Config):
+    DEVELOPMENT = False
     DEBUG = False
 
     DB_HOSTNAME = os.environ.get("RDS_HOSTNAME")
@@ -44,6 +47,8 @@ class Production(Config):
     LOG_LEVEL = logging.ERROR
 
     SECRET = os.environ.get("FLASK_SECRET")
+    S3_BUCKET = os.environ.get("BUCKET")
+    S3_LOCATION = 'https://{}.s3.amazonaws.com/'.format(S3_BUCKET)
 
 config = Config()
 

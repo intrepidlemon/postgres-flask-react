@@ -1,0 +1,42 @@
+.upload {
+}
+
+.upload__dropzone {
+  border-radius: 0.2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: rgba(0, 0, 0, 0.05);
+  min-height: 10rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.upload__dropzone > * + * {
+  margin-top: 1rem;
+}
+
+.upload__dropzone--active {
+  box-shadow: 0.3rem 0.3rem 0 cornflowerblue;
+  opacity: 0.8;
+}
+
+.upload__dropzone__empty {
+  display: block;
+  color: rgba(0, 0, 0, 0.5);
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 10rem;
+  font-size: 4rem;
+}
+
+.upload__uploading {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.1);
+  text-align: center;
+  padding: 1rem;
+  box-sizing: border-box;
+}
