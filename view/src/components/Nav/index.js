@@ -2,12 +2,16 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import { logout } from '../../actions/account'
+import Button from '../Button'
+
+import './nav.css'
 
 const Nav = ({ email, logout, show }) =>
   <div className="nav">
-    <button className="nav__logout" onClick={logout}>
+    <div/>
+    <Button onClick={logout}>
       logout
-    </button>
+    </Button>
   </div>
 
 const mapDispatchToProps = dispatch => ({

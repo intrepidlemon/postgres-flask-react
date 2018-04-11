@@ -1,11 +1,14 @@
 import React from 'react'
 
 import Nav from '../Nav'
+import Flex from '../Flex'
+
+import './home.css'
 
 const Home = () =>
-  <div className="home">
+  <Flex className="home">
     <Nav/>
     <h1>Home</h1>
-  </div>
+  </Flex>
 
 export default Home
