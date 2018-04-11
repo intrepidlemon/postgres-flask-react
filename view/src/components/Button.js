@@ -15,13 +15,13 @@ const Button = styled.button`
   background: none;
 
   &:hover  {
-    transform: translateY(-0.1rem);
+    transform: translate(-0.1rem, -0.1rem);
     box-shadow: 0.2rem 0.2rem 0 cornflowerblue;
     border: 1px solid cornflowerblue;
   }
 
   &:active {
-    transform: translateY(0);
+    transform: translate(0, 0);
     box-shadow: 0 0 0 rgba(0, 0, 0, 0.2);
   }
 `
