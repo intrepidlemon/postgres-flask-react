@@ -4,6 +4,7 @@ const Flex = styled.div`
   display: flex;
   flex-direction: ${ ({ direction="column" }) => direction }
   ${({ direction="column"}) => direction === "row" ? "align-items: center" : "" }
+  justify-content: ${ ({ justify="inherit" }) => justify }
 
   & > * {
     margin: 0;

@@ -23,9 +23,10 @@
   text-decoration: none;
   color: black;
   transition: all 0.2s ease;
-  padding: 1rem;
 
   background: rgba(0, 0, 0, 0.05);
+  border-radius: 0.2rem;
+  overflow: hidden;
 }
 
 .image-list__image:hover {
@@ -35,4 +36,19 @@
 
 .image-list__image > * + * {
   margin-top: 1rem;
+}
+
+.image-list__name {
+  padding-top: 1rem;
+  font-weight: bold;
+}
+
+.image-list__image__inner {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: black;
+  padding: 1rem;
+  width: 100%;
 }

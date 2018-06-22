@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 
 const Button = styled.button`
-  border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 0.2rem;
   outline: none;
   padding: 0.5rem;
@@ -12,12 +11,12 @@ const Button = styled.button`
   transition: all 0.2s ease;
   cursor: pointer;
   user-select: none;
-  background: none;
+  background: rgba(0, 0, 0, 0.05);
+  border: none;
 
   &:hover  {
     transform: translate(-0.1rem, -0.1rem);
     box-shadow: 0.2rem 0.2rem 0 cornflowerblue;
-    border: 1px solid cornflowerblue;
   }
 
   &:active {

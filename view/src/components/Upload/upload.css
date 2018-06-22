@@ -23,7 +23,6 @@
 
 .upload__dropzone__empty {
   display: block;
-  color: rgba(0, 0, 0, 0.5);
   height: 100%;
   width: 100%;
   display: flex;

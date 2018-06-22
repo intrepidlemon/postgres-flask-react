@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 const ButtonLink = styled(Link)`
   text-decoration: none;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  border: none;
   border-radius: 0.2rem;
   outline: none;
   padding: 0.5rem;
@@ -15,11 +15,11 @@ const ButtonLink = styled(Link)`
   cursor: pointer;
   color: black;
   user-select: none;
+  background: rgba(0, 0, 0, 0.05);
 
   &:hover  {
     transform: translate(-0.1rem, -0.1rem);
     box-shadow: 0.2rem 0.2rem 0 cornflowerblue;
-    border: 1px solid cornflowerblue;
   }
 
   &:active {

@@ -8,7 +8,9 @@ import './nav.css'
 
 const Nav = ({ email, logout, show }) =>
   <div className="nav">
-    <div/>
+    <div>
+      { email }
+    </div>
     <Button className="nav__exit" onClick={logout}>
       &times;
     </Button>

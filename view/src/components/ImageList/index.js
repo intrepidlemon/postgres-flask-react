@@ -15,8 +15,10 @@ const Image = ({ id, url, name, digest }) => <Link
   to={`/image/${id}`}
   className="image-list__image"
 >
-  <div>{ name }</div>
-  <Thumbnail size="30rem" src={url} alt={name}/>
+  <div className="image-list__name">{ name }</div>
+  <div className="image-list__image__inner">
+    <Thumbnail size="30rem" src={url} alt={name}/>
+  </div>
 </Link>
 
 
