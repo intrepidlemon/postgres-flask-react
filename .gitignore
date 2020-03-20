@@ -1,4 +1,7 @@
 .DS_Store
+.envrc
+.sql-env
 
+__pycache__/
 migrations/
 

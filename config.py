@@ -12,30 +12,18 @@ class Config(object):
 
     REGION = "us-east-1"
     S3_URL_EXPIRATION = 7 * 24 * 60 * 60 # 7 days
-    S3_BUCKET = "echos-dev"
+    S3_BUCKET = "" # TODO get s3 bucket
     S3_LOCATION = 'https://{}.s3.amazonaws.com/'.format(S3_BUCKET)
 
     RESET_SALT = "recovery-key"
     RESET_MAX_AGE = 24 * 60 * 60 # 24 hours
     CHUNK_SIZE = 64 * 1024 # for hex digest
 
-    DB_NAME = "example"
-    DB_URL = "postgresql:///{name}".format(
-            name=DB_NAME,
-        )
-
-    SENDER = "admin@intrepidlemon.com" # email "from" field
-    URL = "http://localhost:3000"
-
-class Production(Config):
-    DEVELOPMENT = False
-    DEBUG = False
-
-    DB_HOSTNAME = os.environ.get("RDS_HOSTNAME")
-    DB_PORT = os.environ.get("RDS_PORT")
-    DB_NAME = os.environ.get("RDS_DB_NAME")
-    DB_USERNAME = os.environ.get("RDS_USERNAME")
-    DB_PASSWORD = os.environ.get("RDS_PASSWORD")
+    DB_HOSTNAME = os.environ.get("DB_HOSTNAME")
+    DB_PORT = os.environ.get("DB_PORT")
+    DB_NAME = os.environ.get("DB_NAME")
+    DB_USERNAME = os.environ.get("DB_USERNAME")
+    DB_PASSWORD = os.environ.get("DB_PASSWORD")
     DB_URL = "postgresql://{user}:{password}@{hostname}:{port}/{db}".format(
         user=DB_USERNAME,
         password=DB_PASSWORD,
@@ -43,6 +31,13 @@ class Production(Config):
         port=DB_PORT,
         db=DB_NAME,
     )
+
+    SENDER = "admin@intrepidlemon.com" # email "from" field
+    URL = "http://localhost:3000"
+
+class Production(Config):
+    DEVELOPMENT = False
+    DEBUG = False
 
     LOG_LEVEL = logging.ERROR
 

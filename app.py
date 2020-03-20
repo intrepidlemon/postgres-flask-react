@@ -131,7 +131,6 @@ def upload():
         return "no file", 400
     if not filetype("png", f.filename):
         return "wrong file type", 400
-    # generate a new PDF package
     image = Image(remove_ext(f.filename), f, current_user)
     db.session.add(image)
     duplicate = Image.query.filter_by(digest=image.digest).first()

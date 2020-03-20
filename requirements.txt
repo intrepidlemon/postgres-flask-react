@@ -1,0 +1,8 @@
+flask
+flask-login
+flask-sqlalchemy
+flask-migrate
+bcrypt
+psycopg2-binary
+boto3
+itsdangerous
